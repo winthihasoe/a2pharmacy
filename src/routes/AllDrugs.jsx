@@ -1,12 +1,19 @@
-import { MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui-kit";
 import React from "react";
 import Navbar from "../components/Navbar";
-// import useFetch from "../components/useFetch";
-import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+// import useFetchDrugs from "../components/useFetchDrugs";
+import Loading from "../components/Loading";
+import * as api from "../components/drugsApi";
+import { useQuery } from "react-query";
 
 function AllDrugs() {
-  const location = useLocation();
-  const { drugs, isLoading, errorMessage } = location.state;
+  // const { data, isLoading, error, isError } = useFetchDrugs();
+
+  const { data, isLoading, error, isError } = useQuery("drugs", api.getDrugs);
+
+  if (isLoading) {
+    return <Loading title={"A2 pharmacy is loading ..."} />;
+  }
 
   return (
     <div className="inner">
@@ -15,19 +22,15 @@ function AllDrugs() {
       {/* If there was error message, show it
       If not, show drug list  */}
 
-      {isLoading && (
+      {/* {isLoading && (
         <div
-          style={{
-            display: "flex",
-            margin: 10,
-            justifyContent: "center",
-          }}
+          
         >
           A2 Pharmacy is loading ...
         </div>
-      )}
+      )} */}
 
-      {errorMessage && (
+      {isError && (
         <div
           style={{
             display: "flex",
@@ -35,29 +38,44 @@ function AllDrugs() {
             justifyContent: "center",
           }}
         >
-          {errorMessage}
+          {error.message}
         </div>
       )}
-      {!errorMessage && (
+      {!isError && (
         <main style={{ padding: 10 }}>
-          <MDBTable bordered borderColor="info" small>
-            <MDBTableHead>
-              <tr>
-                <th scope="col">No.</th>
-                <th width="100%" scope="col">
-                  Drug Name
-                </th>
-              </tr>
-            </MDBTableHead>
-            {drugs.map((drug) => (
-              <MDBTableBody>
-                <tr>
-                  <td>1</td>
-                  <td width="100%">{drug.drug_name}</td>
-                </tr>
-              </MDBTableBody>
-            ))}
-          </MDBTable>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              backgroundColor: "#ddd",
+              padding: 5,
+              borderRadius: 5,
+              marginBottom: 2,
+            }}
+          >
+            <div>No.</div>
+            <div>Drug Name</div>
+          </div>
+          {data?.map((drug, index) => (
+            <Link to={`/drugs/${drug.id}`}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  border: "1px solid #ddd",
+                  padding: 5,
+                  borderRadius: 5,
+                  marginBottom: 2,
+                }}
+                key={drug.id}
+              >
+                <div>{index + 1}</div>
+                <div>{drug.drug_name}</div>
+              </div>
+            </Link>
+          ))}
         </main>
       )}
     </div>

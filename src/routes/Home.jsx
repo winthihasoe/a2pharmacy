@@ -1,11 +1,8 @@
 import { MDBCol, MDBContainer, MDBRow } from "mdb-react-ui-kit";
 import React from "react";
 import { Link } from "react-router-dom";
-import useFetch from "../components/useFetch";
 
 function Home() {
-  const { drugs, isLoading, errorMessage } = useFetch();
-
   return (
     <>
       <MDBContainer breakpoint="sm">
@@ -21,39 +18,30 @@ function Home() {
             </MDBCol>
 
             <MDBCol>
-              <Link to="all-drugs" state={{ drugs, isLoading, errorMessage }}>
+              <Link to="drugs">
                 <div className="btn square">
                   <p className="text-white btn-label">All Drugs</p>
                 </div>
               </Link>
             </MDBCol>
             <MDBCol>
-              <Link
-                to="retail-price"
-                state={{ drugs, isLoading, errorMessage }}
-              >
+              <Link to="retail-price">
                 <div className="btn square">
                   <p className="text-white btn-label">Retail Price</p>
                 </div>
               </Link>
             </MDBCol>
             <MDBCol>
-              <Link
-                to="doctor-price"
-                state={{ drugs, isLoading, errorMessage }}
-              >
+              <Link to="doctor-price">
                 <div className="btn square">
                   <p className="text-white btn-label">Doctor Price</p>
                 </div>
               </Link>
             </MDBCol>
             <MDBCol>
-              <Link
-                to="purchase-price"
-                state={{ drugs, isLoading, errorMessage }}
-              >
+              <Link to="purchase-price">
                 <div className="btn square">
-                  <p className="text-white btn-label">purchase Price</p>
+                  <p className="text-white btn-label">purchase</p>
                 </div>
               </Link>
             </MDBCol>

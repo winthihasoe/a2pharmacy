@@ -58,6 +58,13 @@ code {
 
 .nav-link-btn {
   color: #ba7636;
-  margin-left: 10px;
+  margin-left: 15px;
   border-bottom: 0.5px solid #ba7636;
+}
+
+/* Edit Form CSS  */
+.edit-form {
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 1rem;
 }

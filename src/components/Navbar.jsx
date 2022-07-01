@@ -9,10 +9,19 @@ export default function Navbar() {
         padding: "0.5rem",
         textAlign: "left",
       }}
+      className="text-center"
     >
       <Link to="/" className="nav-link-btn">
-        Go Back
+        Home
       </Link>
+      <Link to="/drugs" className="nav-link-btn">
+        All Drugs
+      </Link>
+
+      <Link to="/retail-price" className="nav-link-btn">
+        Retail Price
+      </Link>
+
       {/* <Link to="/retail-price" className="nav-link-btn">
         Retail Price
       </Link>

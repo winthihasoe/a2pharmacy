@@ -1,12 +1,25 @@
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdb-react-ui-kit";
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-// import useFetch from "../components/useFetch";
-
+import * as api from "../components/drugsApi";
 export default function RetailPrice() {
-  const location = useLocation();
-  const { drugs, isLoading, errorMessage } = location.state;
+  const { data, isLoading, isError, error } = useQuery("drugs", api.getDrugs);
+
+  if (isError) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          margin: 10,
+          justifyContent: "center",
+        }}
+      >
+        {error.message}
+      </div>
+    );
+  }
 
   return (
     <div className="inner">
@@ -15,41 +28,32 @@ export default function RetailPrice() {
       {/* If there was error message, show it
       If not, show drug list  */}
 
-      {errorMessage ? (
-        <div
-          style={{
-            display: "flex",
-            margin: 10,
-            justifyContent: "center",
-          }}
-        >
-          {errorMessage}
-        </div>
-      ) : (
-        <main style={{ padding: 10 }}>
-          <h2>Retail Price</h2>
-          {isLoading && <div>Loading ...</div>}
+      <main style={{ padding: 10 }}>
+        <h2>Retail Price</h2>
+        {isLoading && <div>Loading ...</div>}
 
-          <MDBTable bordered borderColor="info" small>
-            <MDBTableHead>
+        <MDBTable bordered borderColor="info" small>
+          <MDBTableHead>
+            <tr>
+              <th scope="col">Drug Name</th>
+              <th width="30%" scope="col">
+                Retail
+              </th>
+            </tr>
+          </MDBTableHead>
+          {data?.map((drug) => (
+            <MDBTableBody key={drug.id}>
               <tr>
-                <th scope="col">Drug Name</th>
-                <th width="30%" scope="col">
-                  Retail
-                </th>
-              </tr>
-            </MDBTableHead>
-            {drugs.map((drug) => (
-              <MDBTableBody>
-                <tr>
+                <Link to={`/drugs/${drug.id}`}>
                   <td>{drug.drug_name}</td>
-                  <td>{drug.retail_price}</td>
-                </tr>
-              </MDBTableBody>
-            ))}
-          </MDBTable>
-        </main>
-      )}
+                </Link>
+
+                <td>{drug.retail_price}</td>
+              </tr>
+            </MDBTableBody>
+          ))}
+        </MDBTable>
+      </main>
     </div>
   );
 }
